@@ -1,0 +1,117 @@
+-- 日志表
+CREATE TABLE sys_log (
+	id BIGINT(40) PRIMARY KEY NOT NULL AUTO_INCREMENT COMMENT '主键',
+	ip VARCHAR(20) NOT NULL DEFAULT '' COMMENT '操作地址的IP',
+	operate_time DATETIME NOT NULL COMMENT '操作时间',
+	operate_content VARCHAR(255) NOT NULL DEFAULT '' COMMENT '操作内容',
+	operate_url VARCHAR(50) NOT NULL DEFAULT '' COMMENT '操作的访问地址',
+	operate_by VARCHAR(100) DEFAULT '' COMMENT '操作的浏览器'
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+
+-- 访问表
+CREATE TABLE sys_view (
+	id BIGINT(40) PRIMARY KEY NOT NULL AUTO_INCREMENT COMMENT '主键',
+	visit_ip VARCHAR(20) NOT NULL DEFAULT '' COMMENT '访问者IP',
+	visit_time DATETIME NOT NULL COMMENT '访问时间'
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+
+-- 博文信息表
+CREATE TABLE tbl_article_info (
+	id BIGINT(40) PRIMARY KEY NOT NULL AUTO_INCREMENT COMMENT '主键',
+	title VARCHAR(50) NOT NULL DEFAULT '' COMMENT '文章标题',
+	first_picture VARCHAR(100) NOT NULL DEFAULT '' COMMENT '首图',
+	author_id BIGINT(40) NOT NULL COMMENT '作者ID',
+	author_nike_name VARCHAR(20) NOT NULL DEFAULT '' COMMENT '作者昵称',
+	author_chat_head VARCHAR(100) NOT NULL DEFAULT '' COMMENT '作者头像',
+	summary varchar(300) NOT NULL DEFAULT '' COMMENT '文章简介，默认100个汉字以内',
+	type_id BIGINT(40) NOT NULL COMMENT '对应类型ID',
+	flag VARCHAR(50) NOT NULL DEFAULT '' COMMENT '标记',
+	views INT(10) NOT NULL DEFAULT '0' COMMENT '浏览次数',
+	is_appreciation TINYINT(1) NOT NULL DEFAULT '0' COMMENT '赞赏是否开启，0为否，1为是',
+	is_share_statement TINYINT(1) NOT NULL DEFAULT '0' COMMENT '版权是否开启，0为否，1为是',
+	is_commentabled TINYINT(1) NOT NULL DEFAULT '0' COMMENT '评论是否开启，0为否，1为是',
+	is_published TINYINT(1) NOT NULL DEFAULT '0' COMMENT '是否发布, 0为否，1为是',
+	is_recommend TINYINT(1) NOT NULL DEFAULT '0' COMMENT '是否推荐, 0为否，1为是',
+	is_effective TINYINT(1) NOT NULL DEFAULT '1' COMMENT '是否有效, 0为否，1为是',
+	create_time DATETIME NOT NULL COMMENT '创建时间',
+	update_time DATETIME NOT NULL COMMENT '修改时间'
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+
+-- 博文内容表
+CREATE TABLE tbl_article_content (
+	id BIGINT(40) PRIMARY KEY NOT NULL AUTO_INCREMENT COMMENT '主键',
+	content TEXT NOT NULL COMMENT '文章内容',
+	article_id BIGINT(40) NOT NULL COMMENT '对应文章ID',
+	create_time DATETIME NOT NULL COMMENT '创建时间',
+	update_time DATETIME NOT NULL COMMENT '修改时间'
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+
+-- 博文分类表
+CREATE TABLE tbl_type_info (
+	id BIGINT(40) PRIMARY KEY NOT NULL AUTO_INCREMENT COMMENT '主键',
+	name VARCHAR(20) NOT NULL UNIQUE COMMENT '分类名称',
+	num TINYINT(10) NOT NULL DEFAULT '0' COMMENT '该分类下文章的数量',
+	is_effective TINYINT(1) NOT NULL DEFAULT '1' COMMENT '是否有效, 0为否，1为是',
+	create_time DATETIME NOT NULL COMMENT '创建时间',
+	update_time DATETIME NOT NULL COMMENT '修改时间'
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+
+-- 博文标签表
+CREATE TABLE tbl_tag_info (
+	id BIGINT(40) PRIMARY KEY NOT NULL AUTO_INCREMENT COMMENT '主键',
+	name VARCHAR(20) NOT NULL UNIQUE COMMENT '标签名称',
+	is_effective TINYINT(1) NOT NULL DEFAULT '1' COMMENT '是否有效, 0为否，1为是',
+	create_time DATETIME NOT NULL COMMENT '创建时间',
+	update_time DATETIME NOT NULL COMMENT '修改时间'
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+
+-- 评论表
+CREATE TABLE tbl_comment (
+	id BIGINT(40) PRIMARY KEY NOT NULL AUTO_INCREMENT COMMENT '主键',
+	nike_name VARCHAR(20) NOT NULL DEFAULT '' COMMENT '昵称',
+	email VARCHAR(30) NOT NULL DEFAULT '' COMMENT '邮箱',
+	chat_head VARCHAR(100) NOT NULL DEFAULT '' COMMENT '头像',
+	content VARCHAR(200) NOT NULL DEFAULT '' COMMENT '评论内容',
+	article_id BIGINT(40) NOT NULL COMMENT '对应文章ID',
+	parent_id BIGINT(40) NOT NULL DEFAULT '0' COMMENT '当前评论的父级评论id，没有则为0',
+	parent_nike_name  VARCHAR(20) NOT NULL DEFAULT '' COMMENT '当前评论的父级评论昵称',
+	ip VARCHAR(20) NOT NULL DEFAULT '' COMMENT '评论者的IP地址',
+	is_blogger TINYINT(1) NOT NULL DEFAULT '0' COMMENT '是否是博主, 0为否，1为是',
+	is_effective TINYINT(1) NOT NULL DEFAULT '1' COMMENT '是否有效, 0为否，1为是',
+	create_time DATETIME NOT NULL COMMENT '创建时间',
+	update_time DATETIME NOT NULL COMMENT '修改时间'
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+
+-- 用户表
+CREATE TABLE tbl_user (
+	id BIGINT(40) PRIMARY KEY NOT NULL AUTO_INCREMENT COMMENT '主键',
+	nike_name VARCHAR(20) NOT NULL DEFAULT '' COMMENT '昵称',
+	username VARCHAR(20) NOT NULL UNIQUE COMMENT '用户名',
+	password VARCHAR(20) NOT NULL COMMENT '密码',
+	email VARCHAR(30) NOT NULL DEFAULT '' COMMENT '邮箱',
+	chat_head VARCHAR(100) NOT NULL DEFAULT '' COMMENT '头像',
+	user_type TINYINT(1) NOT NULL DEFAULT '0' COMMENT '账号类型, 0位普通用户, 1为管理员',
+	is_effective TINYINT(1) NOT NULL DEFAULT '1' COMMENT '是否有效, 0为否，1为是',
+	create_time DATETIME NOT NULL COMMENT '创建时间',
+	update_time DATETIME NOT NULL COMMENT '修改时间'
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+
+-- 博文对应标签表
+CREATE TABLE tbl_article_tag (
+	id BIGINT(40) PRIMARY KEY NOT NULL AUTO_INCREMENT COMMENT '主键',
+	article_id BIGINT(40) NOT NULL COMMENT '对应文章ID',
+	tag_id BIGINT(40) NOT NULL COMMENT '对应标签ID',
+-- 	is_effective TINYINT(1) NOT NULL DEFAULT '1' COMMENT '是否有效, 0为否，1为是',
+	create_time DATETIME NOT NULL COMMENT '创建时间',
+	update_time DATETIME NOT NULL COMMENT '修改时间'
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+
+-- 博文对应用户表
+CREATE TABLE tbl_article_user (
+	id BIGINT(40) PRIMARY KEY NOT NULL AUTO_INCREMENT COMMENT '主键',
+	article_id BIGINT(40) NOT NULL COMMENT '对应文章ID',
+	user_id BIGINT(40) NOT NULL COMMENT '对应用户ID',
+	is_effective TINYINT(1) NOT NULL DEFAULT '1' COMMENT '是否有效, 0为否，1为是',
+	create_time DATETIME NOT NULL COMMENT '创建时间',
+	update_time DATETIME NOT NULL COMMENT '修改时间'
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;

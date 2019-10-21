@@ -1,0 +1,121 @@
+package cn.nines.blog.pojo;
+
+import java.util.Date;
+
+public class TblUser {
+    private Long id;
+
+    private String nikeName;
+
+    private String username;
+
+    private String password;
+
+    private String email;
+
+    private String chatHead;
+
+    private Boolean userType;
+
+    private Boolean isEffective;
+
+    private Date createTime;
+
+    private Date updateTime;
+
+    @Override
+    public String toString() {
+        return "TblUser{" +
+                "id=" + id +
+                ", nikeName='" + nikeName + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", chatHead='" + chatHead + '\'' +
+                ", userType=" + userType +
+                ", isEffective=" + isEffective +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                '}';
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getNikeName() {
+        return nikeName;
+    }
+
+    public void setNikeName(String nikeName) {
+        this.nikeName = nikeName == null ? null : nikeName.trim();
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username == null ? null : username.trim();
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password == null ? null : password.trim();
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email == null ? null : email.trim();
+    }
+
+    public String getChatHead() {
+        return chatHead;
+    }
+
+    public void setChatHead(String chatHead) {
+        this.chatHead = chatHead == null ? null : chatHead.trim();
+    }
+
+    public Boolean getUserType() {
+        return userType;
+    }
+
+    public void setUserType(Boolean userType) {
+        this.userType = userType;
+    }
+
+    public Boolean getIsEffective() {
+        return isEffective;
+    }
+
+    public void setIsEffective(Boolean isEffective) {
+        this.isEffective = isEffective;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+}

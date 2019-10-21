@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>博客发布</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
+  <link rel="stylesheet" href="../static/lib/editormd/css/editormd.min.css">
+  <link rel="stylesheet" href="../static/css/me.css">
+
+  <script src="../static/angularjs/angular.min.js"></script>
+
+  <script src="../static/js/base.js"></script>
+  <script src="../static/js/service/loginService.js"></script>
+  <script src="../static/js/service/userService.js"></script>
+  <script src="../static/js/service/uploadService.js"></script>
+  <script src="../static/js/controller/baseController.js"></script>
+  <script src="../static/js/controller/loginController.js"></script>
+  <script src="../static/js/controller/userController.js"></script>
+
+</head>
+<body ng-app="blog" ng-controller="userController" ng-init="findOne();getLoginInfo();closeErrorMesg();closeSuccessMesg()">
+
+  <!--导航-->
+  <nav class="ui inverted attached segment m-padded-tb-mini m-shadow-small" >
+    <div class="ui container">
+      <div class="ui inverted secondary stackable menu">
+        <h2 class="ui teal header item">管理后台</h2>
+        <a href="blogs.html" class="m-item item m-mobile-hide"><i class="mini home icon"></i>博客</a>
+        <a href="types.html" class=" m-item item m-mobile-hide"><i class="mini idea icon"></i>分类</a>
+        <a href="tags.html" class="m-item item m-mobile-hide"><i class="mini tags icon"></i>标签</a>
+        <a href="users.html" class="active m-item item m-mobile-hide"><i class="mini users icon"></i>用户</a>
+        <a href="log.html" class="m-item item m-mobile-hide"><i class="mini users icon"></i>日志</a>
+        <div class="right m-item m-mobile-hide menu">
+          <div class="ui dropdown  item">
+            <div class="text">
+              <img class="ui avatar image" ng-if="chatHead != ''" src="{{chatHead}}">
+              {{nickName}}
+            </div>
+            <i class="dropdown icon"></i>
+            <div class="menu">
+              <a href="#" class="item" ng-click="logout()">注销</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <a href="#" class="ui menu toggle black icon button m-right-top m-mobile-show">
+      <i class="sidebar icon"></i>
+    </a>
+  </nav>
+  <div class="ui attached pointing menu">
+    <div class="ui container">
+      <div class="right menu">
+        <a href="#" class="teal active item">新增</a>
+        <a href="users.html" class="item">列表</a>
+      </div>
+    </div>
+  </div>
+
+  <!--中间内容-->
+  <div  class="m-container-small m-padded-tb-big">
+    <div class="ui container">
+
+      <div ng-if="errorMesg != ''" class="ui error message">
+        <i class="close icon" ng-click="closeErrorMesg()"></i>
+        <div class="header">提示:</div>
+        <span>{{errorMesg}}</span>
+      </div>
+
+      <form name="userForm" class="ui form">
+        <div class="field">
+          <div class="ui left labeled input">
+            <label class="ui teal basic label">账号</label>
+            <input type="text" name="username" ng-model="entity.username" placeholder="用户账号" required>
+          </div>
+          <div class="ui negative message" style="color:red" ng-show="userForm.username.$dirty && userForm.username.$invalid">
+            <div class="header">验证失败</div>
+            <span ng-show="userForm.username.$error.required">账号不能为空</span>
+          </div>
+        </div>
+      <div class="field">
+        <div class="ui left labeled input">
+          <label class="ui teal basic label">昵称</label>
+          <input type="text" name="nikeName" ng-model="entity.nikeName" placeholder="用户昵称" required>
+        </div>
+        <div class="ui negative message" style="color:red" ng-show="userForm.nikeName.$dirty && userForm.nikeName.$invalid">
+          <div class="header">验证失败</div>
+          <span ng-show="userForm.nikeName.$error.required">昵称不能为空</span>
+          </div>
+      </div>
+        <div class="field">
+          <div class="ui left labeled input">
+            <label class="ui teal basic label">密码</label>
+            <input type="password" name="password" ng-model="entity.password" placeholder="用户密码" required="">
+          </div>
+          <div class="ui negative message" style="color:red" ng-show="userForm.password.$dirty && userForm.password.$invalid">
+            <div class="header">验证失败</div>
+            <span ng-show="userForm.password.$error.required">密码不能为空</span>
+          </div>
+        </div>
+        <div class="field">
+          <div class="ui left labeled input">
+            <label class="ui teal basic label">邮箱</label>
+            <input type="email" name="email" ng-model="entity.email" placeholder="用户邮箱">
+          </div>
+          <div class="ui negative message" style="color:red" ng-show="userForm.email.$dirty && userForm.email.$invalid">
+            <div class="header">验证失败</div>
+            <span ng-show="userForm.email.$error.email">非法的邮箱地址。</span>
+          </div>
+        </div>
+        <div class="field">
+          <div class="ui left labeled input">
+            <label class="ui teal basic label">头像</label>
+            <img class="ui Tiny image" ng-if="entity.chatHead != ''" src="{{entity.chatHead}}">
+            <input type="file" id="file" accept="image/*">
+            <button class="btn btn-primary" type="button" ng-click="uploadFile()" >
+              上传
+            </button>
+          </div>
+        </div>
+
+        <div class="ui error message"></div>
+
+        <div class="ui right aligned container">
+          <button type="button" class="ui button" onclick="window.history.go(-1)" >返回</button>
+          <button class="ui teal button" ng-click="save()"
+                  ng-disabled="userForm.username.$dirty && userForm.username.$invalid ||
+                              userForm.nikeName.$dirty && userForm.nikeName.$invalid ||
+                              userForm.password.$dirty && userForm.password.$invalid"
+          >提交</button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+  <br>
+  <br>
+  <!--底部footer-->
+  <footer class="ui inverted vertical segment m-padded-tb-massive">
+    <div class="ui center aligned container">
+      <div class="ui inverted divided stackable grid">
+        <div class="three wide column">
+          <div class="ui inverted link list">
+            <div class="item">
+              <img src="../static/images/wechat.jpg" class="ui rounded image" alt="" style="width: 110px">
+            </div>
+          </div>
+        </div>
+        <div class="three wide column">
+          <h4 class="ui inverted header m-text-thin m-text-spaced ">联系我</h4>
+          <div class="ui inverted link list">
+            <a href="#" class="item m-text-thin">Email：978922493@qq.com</a>
+            <a href="#" class="item m-text-thin">微信：SuiyueLou27</a>
+          </div>
+        </div>
+        <div class="seven wide column">
+          <h4 class="ui inverted header m-text-thin m-text-spaced ">Blog</h4>
+          <p class="m-text-thin m-text-spaced m-opacity-mini">这是我的个人博客、会分享关于编程、写作、思考相关的任何内容，希望可以给来到这儿的人有所帮助...</p>
+        </div>
+      </div>
+      <div class="ui inverted section divider"></div>
+      <p class="m-text-thin m-text-spaced m-opacity-tiny">Copyright © 2019 - 2029 Nines Designed by Nines</p>
+    </div>
+
+  </footer>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
+
+</body>
+</html>
