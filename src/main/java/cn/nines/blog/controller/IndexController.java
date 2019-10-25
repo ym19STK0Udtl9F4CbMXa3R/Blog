@@ -29,7 +29,7 @@ public class IndexController {
     @Resource
     private BlogService blogService;
 
-    @ApiOperation(value = "获取分类信息", notes = "根据条件分页查询")
+    @ApiOperation(value = "获取博文信息", notes = "根据条件分页查询")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "num", value = "当前页码", required = true, dataType = "int", paramType = "path"),
             @ApiImplicitParam(name = "size", value = "每页记录数", required = false, dataType = "int", paramType = "path")
@@ -39,7 +39,7 @@ public class IndexController {
         return blogService.findPage(num, size);
     }
 
-    @ApiOperation(value = "获取分类信息", notes = "根据条件分页查询")
+    @ApiOperation(value = "获取博文信息", notes = "根据条件分页查询")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "article", value = "文章", required = false, dataType = "TblArticleInfo", paramType = "body"),
             @ApiImplicitParam(name = "num", value = "当前页码", required = true, dataType = "int", paramType = "path"),
@@ -50,7 +50,7 @@ public class IndexController {
         return blogService.findPage(article, num, size);
     }
 
-    @ApiOperation(value = "获取分类信息", notes = "根据条件分页查询")
+    @ApiOperation(value = "获取博文信息", notes = "根据条件分页查询")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "tagId", value = "标签ID", required = false, dataType = "Long", paramType = "path"),
             @ApiImplicitParam(name = "num", value = "当前页码", required = true, dataType = "int", paramType = "path"),

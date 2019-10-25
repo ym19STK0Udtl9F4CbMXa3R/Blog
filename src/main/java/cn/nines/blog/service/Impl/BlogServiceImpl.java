@@ -33,6 +33,7 @@ public class BlogServiceImpl implements BlogService {
     @Resource
     private TblArticleContentMapper articleContentMapper;
 
+    // 后台查看
     @Override
     public PageResult findPage(TblArticleInfo article, int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
@@ -60,6 +61,7 @@ public class BlogServiceImpl implements BlogService {
         return new PageResult(page.getTotal(), page.getResult());
     }
 
+    // 首页
     @Override
     public PageResult findPage(int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
