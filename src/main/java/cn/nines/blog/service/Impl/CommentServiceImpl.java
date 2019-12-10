@@ -22,7 +22,7 @@ public class CommentServiceImpl implements CommentService {
     private TblCommentMapper commentMapper;
 
     @Value("${CHAT_HEAD}")
-    private String chat_head;
+    private static String chat_head;
 
     @Override
     public void addComment(TblComment comment, String ip) {

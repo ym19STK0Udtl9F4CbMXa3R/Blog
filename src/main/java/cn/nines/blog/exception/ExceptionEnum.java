@@ -1,8 +1,9 @@
 package cn.nines.blog.exception;
 
 public enum  ExceptionEnum {
-
+    // 系统发生异常，请联系管理员
     SYSTEM_ERROR(500, "系统发生异常，请联系管理员"),
+    // 缺少必要的请求参数
     MISS_REQUEST_PARAMETER(400, "缺少必要的请求参数"),
     MISS_PathVariable(400, "缺失路径变量的名称"),
     INSERT_EXECUTION_FAILED(1001,"添加失败"),

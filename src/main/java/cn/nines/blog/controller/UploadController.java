@@ -13,7 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class UploadController {
 
     @Value("${FILE_SERVER_URL}")
-    private String file_server_url;
+    private static String file_server_url;
 
     @PostMapping("/upload")
     public JsonResult upload(MultipartFile file){
