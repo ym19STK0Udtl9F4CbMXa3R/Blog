@@ -22,19 +22,16 @@ public class CommentServiceImpl implements CommentService {
     private TblCommentMapper commentMapper;
 
     @Value("${CHAT_HEAD}")
-    private static String chat_head;
+    private String chartHead;
 
     @Override
     public void addComment(TblComment comment, String ip) {
-
         comment.setIp(ip);
         comment.setIsEffective(true);
         comment.setCreateTime(new Date());
         comment.setUpdateTime(new Date());
 
-        if (comment.getChatHead() == null){
-            comment.setChatHead(chat_head);
-        }
+        comment.setChatHead(chartHead);
 
         if (comment.getParentId() == null){
             comment.setParentId((long) 0);
