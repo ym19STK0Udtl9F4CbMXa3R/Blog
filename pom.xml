@@ -20,7 +20,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.repoting.outputEncoding>UTF-8</project.repoting.outputEncoding>
-        <mysql.version>8.0.13</mysql.version>
+        <mysql.version>8.0.16</mysql.version>
         <mybatis.version>1.3.2</mybatis.version>
         <pagehelper.version>4.0.0</pagehelper.version>
         <java.version>1.8</java.version>
